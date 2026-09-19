@@ -4,7 +4,7 @@
 <p align="center"><b>Aliases to help Windows users transition smoothly to the Linux terminal.<br>Des alias pour faciliter la transition des utilisateurs Windows vers le terminal Linux.</b></p>
 
 <p align="center">
-  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-blue.svg"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-License.svg"></a>
 </p>
 
 ---
