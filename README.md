@@ -9,13 +9,13 @@
 
 ---
 
-## Overview / Présentation
+## Overview
 
 SmoothTerminal provides a set of aliases and scripts to help users coming from Windows find their familiar commands (cls, dir, copy, etc.) on a Linux terminal. The goal is to make the transition easier and more intuitive.
 
 ---
 
-## Installation / Installation
+## Installation
 
 1. Clone the repository or download the files.
 2. Place the `WinToLinux.sh` file in your home directory.
@@ -29,7 +29,7 @@ An automatic installation script (`install.sh`) is also available to simplify th
 
 ---
 
-## Example aliases / Exemples d'alias
+## Example aliases
 
 ```bash
 cls -----------------------> 'clear'
@@ -41,12 +41,12 @@ Spaced commands such as "net user" in Windows should be used with a short stroke
 **Français**
 Les commandes espacées telles que « utilisateur net » dans Windows doivent être utilisées avec un trait court.
 
-Exemple/Example:
+Example:
 ```ps1
 net-user ---> 'net user'
 ```
 ---
 
-## Uninstall / Désinstallation
+## Uninstall
  
 A script `uninstall.sh` is provided to cleanly remove the aliases and configuration changes from your shell file.

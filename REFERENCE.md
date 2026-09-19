@@ -1,7 +1,5 @@
 # Commands Reference Windows To Linux 
 
-## Reference in English 
-
 | Windows Command (cmd/PowerShell) | Linux Equivalent                       | Description                         |
 |----------------------------------|----------------------------------------|-------------------------------------|
 | cls                              | clear                                  | Clear the screen                    |
