@@ -1,16 +1,11 @@
 #!/usr/bin/env bash
-set -e
+if [ -z "${BASH_VERSION:-}" ]; then
+    if command -v bash >/dev/null 2>&1; then
+        exec bash "$0" "$@"
+    fi
+fi
 
-# Windows to Linux! (Install)
-# This script is used to convert Windows commands to Linux commands
-# It is used to help users to find the equivalent command in Linux
-# ================================================================
-# Author: @Nythique: https://github.com/Nythique
-# ================================================================
-# Project Name: SmoothTerminal
-# Version: 1.0.0
-# Operating System: Linux
-# ================================================================
+set -e
 
 # Colors
 GREEN='\033[0;32m'
@@ -19,63 +14,13 @@ CYAN='\033[0;36m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 
-# Variables
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+# Paths
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" >/dev/null 2>&1 && pwd)"
 ALIAS_FILE="$SCRIPT_DIR/WinToLinux.sh"
 TARGET="$HOME/WinToLinux.sh"
 
-# Enable colors if terminal
-if [ -t 1 ]; then
-    COLOR_ON=true
-else
-    COLOR_ON=false
-fi
-
-# Functions
-transition_effect() {
-    echo
-    echo -e "${BLUE}Windows ${YELLOW}>>> ${GREEN}Linux${RESET}"
-    echo
-    
-    # Exemple de conversions
-    local windows=(".... " ".... " ".... " ".... " ".... ")
-    local linux=("025%" "050%" "075%" "099%" "100%")
-    
-    for ((i=0; i<${#windows[@]}; i++)); do
-        echo -ne "${BLUE}${windows[$i]}${RESET}"
-        for ((j=0; j<3; j++)); do
-            echo -ne "${YELLOW} >${RESET}"
-            sleep 0.1
-        done
-        echo -e " ${GREEN}${linux[$i]}${RESET}"
-        sleep 0.3
-    done
-    
-    echo
-    echo -e "${GREEN}Conversion de commandes prête...${RESET}"
-    sleep 1
-    echo
-}
-
-cecho() {
-    local text="$1"
-    if $COLOR_ON; then
-        local padding=$(printf '%*s' $(((${#text} + 20))))
-        echo -e "${GREEN}"
-        echo -e "╔${padding// /═}╗"
-        echo -e "║  $text  ║"
-        echo -e "╚${padding// /═}╝${RESET}"
-    else
-        echo "$text"
-    fi
-}
-
-# Clear screen and show logo
-# Fonction pour l'animation de démarrage
 startup_animation() {
     clear
-    
-    # Effet de "chargement" du logo
     for ((i=1; i<=4; i++)); do
         clear
         case $i in
@@ -90,7 +35,7 @@ startup_animation() {
 |__   | | |  _| . | . |  _| |___| | | | -_|  _|     |_ -|
 |_____|___|_| |___|___|_| |_|     |_| |___|_| |_|_|_|___|
 EOF
-        sleep 0.2
+        sleep 0.15
     done
 
     echo
@@ -98,13 +43,10 @@ EOF
     echo -e "${YELLOW}║${RESET}     ${BLUE}Windows${RESET} ${GREEN}Command Converter${RESET}        ${YELLOW}║${RESET}"
     echo -e "${YELLOW}╚════════════════════════════════════════╝${RESET}"
     echo
-
-    # Exemples de conversion avec animation
     echo -e "${CYAN}Initializing command translations...${RESET}"
-    sleep 0.2
+    sleep 0.15
     echo
 
-    # Exemple de conversions
     local windows=(".... " ".... " ".... " ".... " ".... ")
     local linux=("025%" "050%" "075%" "099%" "100%")
     
@@ -112,10 +54,10 @@ EOF
         echo -ne "  ${BLUE}${windows[$i]}${RESET} "
         for ((j=0; j<3; j++)); do
             echo -ne "${YELLOW}▶${RESET}"
-            sleep 0.05
+            sleep 0.03
         done
         echo -e " ${GREEN}${linux[$i]}${RESET}"
-        sleep 0.1
+        sleep 0.05
     done
 
     echo
@@ -123,93 +65,93 @@ EOF
     echo -e "${YELLOW}║${RESET}    ${GREEN}Command Conversion Ready !${RESET}         ${YELLOW}║${RESET}"
     echo -e "${YELLOW}╚════════════════════════════════════════╝${RESET}"
     echo
-    sleep 0.3
+    sleep 0.2
 }
 
-# Lancer l'animation de démarrage
 startup_animation
 
 clear
-# Installation process
 echo -e "\n${YELLOW}╔════════════════════════════════════════╗${RESET}"
 echo -e "${YELLOW}║${RESET}        ${CYAN}Shell Detection${RESET}                ${YELLOW}║${RESET}"
 echo -e "${YELLOW}╚════════════════════════════════════════╝${RESET}"
 echo
 
-sleep 0.1
-CURRENT_SHELL="$(basename "${SHELL:-}")"
+CURRENT_SHELL="$(basename "${SHELL:-bash}")"
+CONFIG_FILES=()
 
-if [ "$CURRENT_SHELL" = "zsh" ] || [ -n "${ZSH_VERSION:-}" ]; then
-    RC_FILE="$HOME/.zshrc"
-    echo -e " ${GREEN}✓${RESET} Zsh shell detected"
-    sleep 0.1
-elif [ "$CURRENT_SHELL" = "bash" ] || [ -n "${BASH_VERSION:-}" ]; then
-    RC_FILE="$HOME/.bashrc"
-    echo -e " ${GREEN}✓${RESET} Bash shell detected"
-    sleep 0.1
-elif [ -f "$HOME/.zshrc" ]; then
-    RC_FILE="$HOME/.zshrc"
-    echo -e " ${GREEN}✓${RESET} Zsh configuration found (~/.zshrc)"
-    sleep 0.1
-else
-    RC_FILE="$HOME/.bashrc"
-    echo -e " ${YELLOW}!${RESET} Defaulting to Bash shell (~/.bashrc)"
-    sleep 0.1
+if [ "$CURRENT_SHELL" = "zsh" ] || [ -f "$HOME/.zshrc" ]; then
+    CONFIG_FILES+=("$HOME/.zshrc")
+    echo -e " ${GREEN}✓${RESET} Zsh configuration detected (~/.zshrc)"
 fi
-touch "$RC_FILE"
+
+if [ "$CURRENT_SHELL" = "bash" ] || [ -f "$HOME/.bashrc" ]; then
+    CONFIG_FILES+=("$HOME/.bashrc")
+    echo -e " ${GREEN}✓${RESET} Bash configuration detected (~/.bashrc)"
+fi
+
+if [ ${#CONFIG_FILES[@]} -eq 0 ]; then
+    if [ -f "$HOME/.profile" ]; then
+        CONFIG_FILES+=("$HOME/.profile")
+        echo -e " ${GREEN}✓${RESET} Profile configuration detected (~/.profile)"
+    else
+        CONFIG_FILES+=("$HOME/.bashrc")
+        echo -e " ${YELLOW}!${RESET} Defaulting to ~/.bashrc"
+    fi
+fi
 sleep 0.2
 
 clear
-# Displaying the installation header
 echo -e "\n${YELLOW}╔════════════════════════════════════════╗${RESET}"
 echo -e "${YELLOW}║${RESET}        ${CYAN}Installing Files${RESET}               ${YELLOW}║${RESET}"
 echo -e "${YELLOW}╚════════════════════════════════════════╝${RESET}"
 echo
 
-# Animation de copie
 echo -ne " ${BLUE}⟳${RESET} Copying files"
 for ((i=0; i<3; i++)); do
     echo -ne "."
-    sleep 0.2
+    sleep 0.1
 done
+
+if [ ! -f "$ALIAS_FILE" ]; then
+    echo -e "\n ${YELLOW}!${RESET} Error: $ALIAS_FILE not found."
+    exit 1
+fi
+
 cp "$ALIAS_FILE" "$TARGET"
-echo -e "\r ${GREEN}✓${RESET} Files copied successfully        "
-sleep 0.5
+echo -e "\r ${GREEN}✓${RESET} Files copied successfully to $TARGET        "
+sleep 0.3
 
 echo -e "\n${YELLOW}╔════════════════════════════════════════╗${RESET}"
 echo -e "${YELLOW}║${RESET}        ${CYAN}Configuration${RESET}                  ${YELLOW}║${RESET}"
 echo -e "${YELLOW}╚════════════════════════════════════════╝${RESET}"
 echo
 
-echo -ne " ${BLUE}⟳${RESET} Setting up shell configuration"
-for ((i=0; i<3; i++)); do
-    echo -ne "."
-    sleep 0.2
+SOURCE_CMD='[ -f "$HOME/WinToLinux.sh" ] && source "$HOME/WinToLinux.sh"'
+
+for rc in "${CONFIG_FILES[@]}"; do
+    touch "$rc"
+    if ! grep -Fq "WinToLinux.sh" "$rc"; then
+        echo "" >> "$rc"
+        echo "# SmoothTerminal aliases" >> "$rc"
+        echo "$SOURCE_CMD" >> "$rc"
+        echo -e " ${GREEN}✓${RESET} Shell configuration added to $rc"
+    else
+        echo -e " ${YELLOW}!${RESET} Configuration already exists in $rc"
+    fi
 done
+sleep 0.2
 
-if ! grep -Fxq "source ~/WinToLinux.sh" "$RC_FILE"; then
-    echo "source ~/WinToLinux.sh" >> "$RC_FILE"
-    echo -e "\r ${GREEN}✓${RESET} Shell configuration updated ($RC_FILE)        "
-else
-    echo -e "\r ${YELLOW}!${RESET} Configuration already exists in $RC_FILE        "
-fi
-sleep 0.1
-
-# Final message with style
 clear
 echo -e "\n${GREEN}╔════════════════════════════════════════╗${RESET}"
 echo -e "${GREEN}║${RESET}       ${CYAN}Installation Complete !${RESET}           ${GREEN}║${RESET}"
 echo -e "${GREEN}╚════════════════════════════════════════╝${RESET}"
-
-# Reminder to apply changes
-if [ -f "$RC_FILE" ]; then
-    source "$RC_FILE" 2>/dev/null || true
-fi
 
 echo -e "${YELLOW}╔════════════════════════════════════════╗${RESET}"
 echo -e "${YELLOW}║${RESET}    ${GREEN}Happy command converting!${RESET}          ${YELLOW}║${RESET}"
 echo -e "${YELLOW}╚════════════════════════════════════════╝${RESET}"
 echo
 echo -e " ${CYAN}To apply the changes immediately, run:${RESET}"
-echo -e "   ${GREEN}source $RC_FILE${RESET}"
+for rc in "${CONFIG_FILES[@]}"; do
+    echo -e "   ${GREEN}source $rc${RESET}"
+done
 echo -e " ${CYAN}or simply restart your terminal.${RESET}\n"

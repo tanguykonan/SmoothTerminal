@@ -1,52 +1,67 @@
-<p align="center"><img src="https://raw.githubusercontent.com/odb/official-bash-logo/master/assets/Logos/Icons/PNG/512x512.png" width="200px"></p>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/odb/official-bash-logo/master/assets/Logos/Icons/PNG/512x512.png" width="140px" alt="SmoothTerminal Logo">
+</p>
 
 <h1 align="center">SmoothTerminal</h1>
-<p align="center"><b>Aliases to help Windows users transition smoothly to the Linux terminal.</b></p>
 
 <p align="center">
-  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-License.svg"></a>
+  <b>Aliases and automation kits to help Windows users transition smoothly to the Linux terminal.</b>
+</p>
+
+<p align="center">
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
+  <img src="https://img.shields.io/badge/OS-Linux%20(Ubuntu%20|%20Debian%20|%20Kali%20|%20Fedora%20|%20Arch%20|%20Alpine)-informational.svg" alt="Linux Distros">
+  <img src="https://img.shields.io/badge/Shell-Bash%20|%20Zsh-success.svg" alt="Shells">
 </p>
 
 ---
 
 ## Overview
 
-SmoothTerminal provides a set of aliases and scripts to help users coming from Windows find their familiar commands (cls, dir, copy, etc.) on a Linux terminal. The goal is to make the transition easier and more intuitive.
+**SmoothTerminal** brings familiar Windows **CMD** and **PowerShell** commands to Linux terminals. It offers safe, non-destructive aliases and developer kits compatible with all major distributions.
 
 ---
 
-## Installation
+## Quick Installation
 
-1. Clone the repository or download the files.
-2. Place the `WinToLinux.sh` file in your home directory.
-3. Add the following line at the end of your `.bashrc` or `.zshrc`:
-   ```bash
-   source ~/WinToLinux.sh
-   ```
-4. Reload your terminal or run `source ~/.bashrc` (or `source ~/.zshrc`).
-
-An automatic installation script (`install.sh`) is also available to simplify the process.
-
----
-
-## Example aliases
+Run the automatic installer:
 
 ```bash
-cls -----------------------> 'clear'
-Get-UserInfo --------------> 'whoami'  
+bash install.sh
 ```
-## Information
 
-Spaced commands such as "net user" in Windows should be used with a short stroke.
-**Français**
-Les commandes espacées telles que « utilisateur net » dans Windows doivent être utilisées avec un trait court.
+To uninstall cleanly at any time:
 
-Example:
-```ps1
-net-user ---> 'net user'
+```bash
+sh uninstall.sh
 ```
+
 ---
 
-## Uninstall
- 
-A script `uninstall.sh` is provided to cleanly remove the aliases and configuration changes from your shell file.
+## Quick Examples
+
+```bash
+cls          # Runs 'clear'
+dir          # Runs 'ls -al'
+ipconfig     # Runs 'ip a'
+tasklist     # Runs 'ps aux'
+Get-UserInfo # Runs 'whoami'
+```
+
+ **For the complete list of supported commands, check [REFERENCE.md](./REFERENCE.md).**
+
+---
+
+## Developer Kits
+
+Automated installation scripts for essential tools across all distributions:
+
+- **Podman**: `sh kits/install-podman.sh`
+- **Docker**: `sh kits/install-docker.sh`
+
+---
+
+## Contributing & License
+
+- Want to contribute? Check [CONTRIBUTING.md](./CONTRIBUTING.md).
+- Licensed under the [MIT License](./LICENSE).

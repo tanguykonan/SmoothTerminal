@@ -1,152 +1,174 @@
-# Windows to Linux! (alias)
-# This script is used to convert Windows commands to Linux commands
-# It is used to help users to find the equivalent command in Linux
-# ================================================================
-# Author: @Nythique: https://github.com/Nythique
-# Portfolio: https://nythique.github.io
-# License:  GNU AFFERO GENERAL PUBLIC LICENSE
-# ================================================================
-# Poject Name: SmoothTerminal
-# Version: 1.0.0
-# Operating System: Linux
-# ================================================================
-# ================================================================
+alias cls='clear'                  # Clear screen
+alias dir='ls -al'                 # List files and directories
+alias copy='cp'                    # Copy a file/directory
+alias xcopy='cp -r'                # Copy recursively
+alias move='mv'                    # Move / Rename
+alias ren='mv'                     # Rename
+alias del='rm -i'                  # Delete (with confirmation)
+alias erase='rm'                   # Delete
+alias md='mkdir'                   # Create a directory
+alias rd='rmdir'                   # Remove an empty directory
+alias tree='tree -C'               # Display directory tree
+alias attrib='lsattr'              # File attributes
+alias chdir='cd'                   # Change directory
+alias pushd='pushd'                # Push directory onto stack
+alias popd='popd'                  # Pop directory from stack
+alias type='cat'                   # Display file contents
+alias more='less'                  # Page-by-page display
+alias edit='${EDITOR:-nano}'       # Text editor
+alias notepad='${EDITOR:-nano}'    # Text editor
+alias path='echo "$PATH"'          # Display PATH environment variable
+alias findstr='grep'               # Search string in files
+alias ipconfig='ip a'              # Display network configuration
+alias ifconfig='ip a'              # Display network configuration
+alias ping='ping'                  # Test network connection
 
-# ================================================================
-#                   Alias CMD classiques
-# ================================================================
-alias cls='clear'                  # Effacer l'écran
-alias dir='ls -al'                 # Lister les fichiers/dossiers
-alias copy='cp'                    # Copier un fichier/dossier
-alias xcopy='cp -r'                # Copier récursivement
-alias move='mv'                    # Déplacer/renommer
-alias ren='mv'                     # Renommer
-alias del='rm -i'                  # Supprimer (avec confirmation)
-alias erase='rm'                   # Supprimer
-alias md='mkdir'                   # Créer un dossier
-alias rd='rmdir'                   # Supprimer un dossier vide
-alias rmdir='rm -r'                # Supprimer un dossier (récursif)
-alias tree='tree -C'               # Afficher l'arborescence
-alias attrib='lsattr'              # Attributs de fichiers
-alias chdir='cd'                   # Changer de dossier
-alias pushd='pushd'                # Empiler un dossier
-alias popd='popd'                  # Dépiler un dossier
-alias type='cat'                   # Afficher le contenu d'un fichier
-alias more='less'                  # Affichage page par page
-alias edit='nano'                  # Éditeur de texte
-alias notepad='nano'               # Éditeur de texte
-alias path='echo $PATH'            # Afficher la variable PATH
-alias findstr='grep'               # Rechercher une chaîne dans un fichier
-alias find='grep'                  # Rechercher dans un fichier
-alias ipconfig='ip a'              # Afficher la config réseau
-alias ifconfig='ifconfig'          # Afficher la config réseau (ancienne syntaxe)
-alias ping='ping'                  # Tester la connexion réseau
-alias tracert='traceroute'         # Tracer une route réseau
-alias netstat='netstat'            # Statistiques réseau
-alias arp='arp'                    # Table ARP
-alias hostname='hostname'          # Nom de la machine
-alias whoami='whoami'              # Utilisateur courant
-alias tasklist='ps aux'            # Lister les processus
-alias taskkill='kill'              # Tuer un processus
-alias top='htop'                   # Afficher l'utilisation système
-alias free='free -h'               # Afficher la mémoire
-alias df='df -h'                   # Espace disque
-alias du='du -sh *'                # Taille des fichiers
-alias date='date'                  # Afficher la date
-alias time='date +%T'              # Afficher l'heure
-alias cal='cal'                    # Calendrier
-alias shutdown='sudo shutdown now' # Éteindre l'ordinateur
-alias restart='sudo reboot'        # Redémarrer l'ordinateur
-alias exit='exit'                  # Quitter le shell
-alias help='man'                   # Aide/manuel
-alias history='history'            # Historique des commandes
-alias clearhistory='history -c'    # Effacer l'historique
-alias pwd='pwd'                    # Afficher le dossier courant
-alias where='which'                # Trouver le chemin d'un exécutable
-alias ver='uname -a'               # Version du système
-alias systeminfo='uname -a'        # Infos système
-alias lsusb='lsusb'                # Lister les périphériques USB
-alias lspci='lspci'                # Lister les périphériques PCI
-alias lsblk='lsblk'                # Lister les périphériques de stockage
-alias open='xdg-open'              # Ouvrir un fichier/dossier
-alias explorer='xdg-open .'        # Ouvrir le gestionnaire de fichiers
-if [ -n "${ZSH_VERSION:-}" ]; then
-    alias setx="echo 'export VAR=val' >> ~/.zshrc" # Définir une variable d'environnement persistante (zsh)
-else
-    alias setx="echo 'export VAR=val' >> ~/.bashrc" # Définir une variable d'environnement persistante (bash)
+# Routing tool detection
+if command -v traceroute >/dev/null 2>&1; then
+    alias tracert='traceroute'
+elif command -v tracepath >/dev/null 2>&1; then
+    alias tracert='tracepath'
 fi
-alias assoc='file'                 # Associer un type de fichier
-alias color='tput setaf'           # Changer la couleur du texte
-alias comp='diff'                  # Comparer des fichiers
-alias compact='gzip'               # Compresser un fichier
-alias convert='convert'            # Conversion de fichiers (ImageMagick)
-alias copy-con='cat >'           # Créer un fichier depuis la console
-alias diskcopy='dd'                # Copier un disque
-alias chkdsk='fsck'                # Vérifier un système de fichiers
-alias chkntfs='tune2fs'            # Vérifier/configurer le système de fichiers
-alias clip='xclip -selection clipboard' # Copier dans le presse-papiers
-alias label='e2label'              # Étiqueter une partition
-alias mode='stty'                  # Configurer le terminal
-alias print='lpr'                  # Imprimer un fichier
-alias replace='rsync'              # Remplacer des fichiers
-alias sc='systemctl'               # Gestion des services
-alias setlocal='export'            # Définir une variable d'environnement locale
-alias sort='sort'                  # Trier un fichier
-alias subst='mount --bind'         # Monter un dossier
-alias verifier='dmesg'             # Afficher les messages du noyau
-alias vol='lsblk'                  # Afficher les volumes/disques
-alias w32tm='timedatectl'          # Configurer l'heure système
-alias route='ip route'             # Afficher/modifier la table de routage
-alias nslookup='nslookup'          # Interroger le DNS
-alias netsh='nmcli'                # Configurer le réseau
-alias nbtstat='nmblookup'          # Statistiques NetBIOS
-alias net-user='sudo useradd / sudo usermod' # Gestion des utilisateurs
-alias net-localgroup='sudo groupadd / sudo groupmod' # Gestion des groupes
-alias runas='sudo -u'              # Exécuter en tant qu'autre utilisateur
-alias net-start='systemctl start' # Démarrer un service
-alias net-stop='systemctl stop'   # Arrêter un service
-alias net-pause='systemctl stop'  # Mettre en pause un service
-alias net-continue='systemctl start' # Reprendre un service
-alias sc-query='systemctl status' # Statut d'un service
-alias sc-stop='systemctl stop'    # Arrêter un service
-alias sc-start='systemctl start'  # Démarrer un service
-alias sc-config='systemctl edit'  # Configurer un service
-alias diskpart='fdisk'              # Partitionner un disque
-alias format='mkfs'                 # Formater un disque/partition
-alias mount='mount'                 # Monter un système de fichiers
-alias umount='umount'               # Démonter un système de fichiers
-alias sfc='debsums'                 # Vérifier l'intégrité des fichiers système
-alias msinfo32='lshw'               # Informations système détaillées
-alias start='xdg-open'              # Ouvrir un fichier/application
-alias logoff='pkill -KILL -u $USER' # Déconnexion de l'utilisateur
-alias pause='read -p "Press [Enter] to continue..."' # Pause dans le terminal
-alias title='echo -ne "\033]0;Titre\007"' # Changer le titre du terminal
 
-# ================================================================
-#                   Alias PowerShell courants
-# ================================================================
-alias Get-ChildItem='ls -al'        # Lister les fichiers/dossiers
-alias Copy-Item='cp'                # Copier un fichier/dossier
-alias Move-Item='mv'                # Déplacer/renommer
-alias Remove-Item='rm -i'           # Supprimer (avec confirmation)
-alias Rename-Item='mv'              # Renommer
-alias Get-Content='cat'             # Afficher le contenu d'un fichier
-alias Set-Location='cd'             # Changer de dossier
-alias Push-Location='pushd'         # Empiler un dossier
-alias Pop-Location='popd'           # Dépiler un dossier
-alias Get-Process='ps aux'          # Lister les processus
-alias Stop-Process='kill'           # Tuer un processus
-alias Start-Process='xdg-open'      # Ouvrir un fichier/application
-alias Get-Date='date'               # Afficher la date
-alias Get-History='history'         # Historique des commandes
-alias Clear-Host='clear'            # Effacer l'écran
-alias Get-Location='pwd'            # Afficher le dossier courant
-alias Get-Command='which'           # Trouver le chemin d'un exécutable
-alias Get-ComputerInfo='uname -a'   # Infos système
-alias Get-DiskInfo='df -h'          # Espace disque
-alias Get-MemoryInfo='free -h'      # Mémoire
-alias Get-CPUInfo='lscpu'           # Informations CPU
-alias Get-NetworkInfo='ip a'        # Informations réseau
-alias Get-UserInfo='whoami'         # Utilisateur courant
-alias Get-ServiceInfo='systemctl status' # Statut des services
-alias Get-ProcessInfo='ps aux'      # Informations sur les processus
+alias netstat='ss -tuln'           # Modern network statistics
+alias arp='ip neigh'               # Modern ARP table
+alias hostname='hostname'          # Machine hostname
+alias whoami='whoami'              # Current user
+alias tasklist='ps aux'            # List running processes
+alias taskkill='kill'              # Terminate a process
+
+# System monitor
+if command -v htop >/dev/null 2>&1; then
+    alias top='htop'
+fi
+
+alias free='free -h'               # Display memory usage
+alias df='df -h'                   # Disk space
+alias du='du -sh *'                # File and directory sizes
+alias date='date'                  # Display current date
+alias time='date +%T'              # Display current time
+alias cal='cal'                    # Display calendar
+alias shutdown='sudo shutdown now' # Shut down computer
+alias restart='sudo reboot'        # Restart computer
+alias exit='exit'                  # Exit shell
+alias help='man'                   # Manual / Help
+alias history='history'            # Command history
+
+# Clear history (Bash and Zsh compatible)
+if [ -n "${ZSH_VERSION:-}" ]; then
+    alias clearhistory='fc -p'
+else
+    alias clearhistory='history -c'
+fi
+
+alias pwd='pwd'                    # Display current directory
+alias where='which'                # Find executable path
+alias ver='uname -a'               # System version
+alias systeminfo='uname -a'        # System information
+alias lsusb='lsusb'                # List USB devices
+alias lspci='lspci'                # List PCI devices
+alias lsblk='lsblk'                # List storage block devices
+alias open='xdg-open'              # Open file / directory
+alias explorer='xdg-open .'        # Open file manager in current directory
+
+# Persistent environment variable setup
+if [ -n "${ZSH_VERSION:-}" ]; then
+    alias setx="echo 'export VAR=val' >> ~/.zshrc"
+else
+    alias setx="echo 'export VAR=val' >> ~/.bashrc"
+fi
+
+alias fc='diff'                    # Compare files
+alias assoc='file'                 # Determine file type
+alias color='tput setaf'           # Change text color
+alias comp='diff'                  # Compare files
+alias compact='gzip'               # Compress file
+alias convert='convert'            # File conversion
+alias copy-con='cat >'             # Create file from console input
+alias diskcopy='dd'                # Clone disk
+alias chkdsk='fsck'                # Check filesystem integrity
+alias chkntfs='tune2fs'            # Check/configure filesystem parameters
+
+# Multi-distro clipboard support
+if command -v xclip >/dev/null 2>&1; then
+    alias clip='xclip -selection clipboard'
+elif command -v wl-copy >/dev/null 2>&1; then
+    alias clip='wl-copy'
+elif command -v xsel >/dev/null 2>&1; then
+    alias clip='xsel --clipboard --input'
+fi
+
+alias label='e2label'              # Label a partition
+alias mode='stty'                  # Configure terminal settings
+alias print='lpr'                  # Print a file
+alias replace='rsync'              # Sync files
+alias sc='systemctl'               # Service management
+alias setlocal='export'            # Set local environment variable
+alias sort='sort'                  # Sort file lines
+alias subst='mount --bind'         # Bind mount a directory
+alias verifier='dmesg'             # Display kernel logs
+alias vol='lsblk'                  # Display volumes
+alias w32tm='timedatectl'          # Configure system time
+alias route='ip route'             # Display routing table
+alias nslookup='nslookup'          # Query DNS
+alias netsh='nmcli'                # Configure network
+alias nbtstat='nmblookup'          # NetBIOS statistics
+alias net-user='sudo useradd'      # Add user
+alias net-user-mod='sudo usermod'  # Modify user
+alias net-localgroup='sudo groupadd' # Add group
+alias net-localgroup-mod='sudo groupmod' # Modify group
+alias runas='sudo -u'              # Execute as another user
+alias net-start='systemctl start'  # Start a service
+alias net-stop='systemctl stop'    # Stop a service
+alias net-pause='systemctl stop'   # Pause a service
+alias net-continue='systemctl start' # Resume a service
+alias sc-query='systemctl status'  # Service status
+alias sc-stop='systemctl stop'     # Stop a service
+alias sc-start='systemctl start'   # Start a service
+alias sc-config='systemctl edit'   # Configure a service
+alias diskpart='fdisk'             # Partition a disk
+alias format='mkfs'                # Format a partition
+alias mount='mount'                # Mount a filesystem
+alias umount='umount'              # Unmount a filesystem
+
+# System integrity verification
+if command -v debsums >/dev/null 2>&1; then
+    alias sfc='debsums'
+elif command -v rpm >/dev/null 2>&1; then
+    alias sfc='rpm -Va'
+elif command -v pacman >/dev/null 2>&1; then
+    alias sfc='pacman -Qk'
+fi
+
+alias msinfo32='lshw'              # Detailed system hardware info
+alias start='xdg-open'             # Open file/application
+alias logoff='pkill -KILL -u $USER' # Log off current user
+alias pause='printf "Press [Enter] to continue..."; read -r _dummy' # Portable pause
+alias title='echo -ne "\033]0;Title\007"' # Change terminal title
+
+# PowerShell Aliases
+alias Get-ChildItem='ls -al'        # List files and directories
+alias Copy-Item='cp'                # Copy a file/directory
+alias Move-Item='mv'                # Move / Rename
+alias Remove-Item='rm -i'           # Remove (with confirmation)
+alias Rename-Item='mv'              # Rename
+alias Get-Content='cat'             # Display file contents
+alias Set-Location='cd'             # Change directory
+alias Push-Location='pushd'         # Push directory onto stack
+alias Pop-Location='popd'           # Pop directory from stack
+alias Get-Process='ps aux'          # List running processes
+alias Stop-Process='kill'           # Terminate a process
+alias Start-Process='xdg-open'      # Open file/application
+alias Get-Date='date'               # Display current date
+alias Get-History='history'         # Command history
+alias Clear-Host='clear'            # Clear screen
+alias Get-Location='pwd'            # Display current directory
+alias Get-Command='which'           # Find executable path
+alias Get-ComputerInfo='uname -a'   # System information
+alias Get-DiskInfo='df -h'          # Disk space
+alias Get-MemoryInfo='free -h'      # Memory info
+alias Get-CPUInfo='lscpu'           # CPU information
+alias Get-NetworkInfo='ip a'        # Network information
+alias Get-UserInfo='whoami'         # Current user
+alias Get-ServiceInfo='systemctl status' # Service status
+alias Get-ProcessInfo='ps aux'      # Process information
