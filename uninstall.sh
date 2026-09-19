@@ -20,14 +20,6 @@ RESET='\033[0m'
 ALIAS_FILE="WinToLinux.sh"
 TARGET="$HOME/WinToLinux.sh"
 
-if [ -n "${ZSH_VERSION:-}" ]; then
-  RC_FILE="$HOME/.zshrc"
-elif [ -n "${BASH_VERSION:-}" ]; then
-  RC_FILE="$HOME/.bashrc"
-else
-  RC_FILE="$HOME/.bashrc"
-fi
-
 COLOR_ON=false
 if [ -t 1 ]; then COLOR_ON=true; fi
 
@@ -50,12 +42,18 @@ else
   cecho "======>[INFO] No file to remove at $TARGET"
 fi
 
-if grep -Fxq "source ~/WinToLinux.sh" "$RC_FILE"; then
-  sed -i.bak '/^source ~\/WinToLinux\.sh$/d' "$RC_FILE"
-  cecho "======>[OK] Removed sourcing line from $RC_FILE"
-  cecho "======>[INFO] Backup saved as $RC_FILE.bak"
-else
-  cecho "======>[INFO] Sourcing line not found in $RC_FILE"
+REMOVED_ANY=false
+for rc in "$HOME/.bashrc" "$HOME/.zshrc"; do
+  if [ -f "$rc" ] && grep -Fxq "source ~/WinToLinux.sh" "$rc"; then
+    sed -i.bak '/^source ~\/WinToLinux\.sh$/d' "$rc"
+    cecho "======>[OK] Removed sourcing line from $rc"
+    cecho "======>[INFO] Backup saved as $rc.bak"
+    REMOVED_ANY=true
+  fi
+done
+
+if ! $REMOVED_ANY; then
+  cecho "======>[INFO] Sourcing line not found in ~/.bashrc or ~/.zshrc"
 fi
 clear
 cecho "======>[END] Uninstall completed"

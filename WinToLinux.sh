@@ -70,8 +70,11 @@ alias lspci='lspci'                # Lister les périphériques PCI
 alias lsblk='lsblk'                # Lister les périphériques de stockage
 alias open='xdg-open'              # Ouvrir un fichier/dossier
 alias explorer='xdg-open .'        # Ouvrir le gestionnaire de fichiers
-alias setx="echo 'export VAR=val' >>~/.bashrc" # Définir une variable d'environnement persistante
-alias fc='diff'                    # Comparer des fichiers
+if [ -n "${ZSH_VERSION:-}" ]; then
+    alias setx="echo 'export VAR=val' >> ~/.zshrc" # Définir une variable d'environnement persistante (zsh)
+else
+    alias setx="echo 'export VAR=val' >> ~/.bashrc" # Définir une variable d'environnement persistante (bash)
+fi
 alias assoc='file'                 # Associer un type de fichier
 alias color='tput setaf'           # Changer la couleur du texte
 alias comp='diff'                  # Comparer des fichiers
